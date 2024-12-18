@@ -1,6 +1,8 @@
 package com.dicoding.picodiploma.storyappdicoding.view.addstory
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -12,6 +14,7 @@ import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
 import com.dicoding.picodiploma.storyappdicoding.R
 import com.dicoding.picodiploma.storyappdicoding.databinding.ActivityAddStoryBinding
@@ -21,11 +24,14 @@ import com.dicoding.picodiploma.storyappdicoding.reduceFileImage
 import com.dicoding.picodiploma.storyappdicoding.uriToFile
 import com.dicoding.picodiploma.storyappdicoding.view.ViewModelFactory
 import com.dicoding.picodiploma.storyappdicoding.view.main.MainActivity
+import com.google.android.gms.location.LocationServices
 
 class AddStoryActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddStoryBinding
     private lateinit var addStoryViewModel: AddStoryViewModel
     private var currentImageUri: Uri? = null
+    private var currentLat: Double? = null
+    private var currentLon: Double? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +52,29 @@ class AddStoryActivity : AppCompatActivity() {
         binding.btnUpload.setOnClickListener { handleUploadStory() }
 
     }
+
+    private fun requestLocation() {
+        val fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                LOCATION_REQUEST_CODE
+            )
+            return
+        }
+        fusedLocationClient.lastLocation.addOnSuccessListener { location ->
+            if (location != null) {
+                currentLat = location.latitude
+                currentLon = location.longitude
+            }
+        }
+    }
+
 
     private fun setupView() {
         @Suppress("DEPRECATION")
@@ -113,16 +142,25 @@ class AddStoryActivity : AppCompatActivity() {
     }
 
     private fun handleUploadStory() {
+        val isLocationEnabled = binding.switchLocation.isChecked
+        if (isLocationEnabled) requestLocation()
+
         currentImageUri?.let { uri ->
             val imageFile = uriToFile(uri, this).reduceFileImage()
             val description = binding.etDescription.text.toString()
+
             if (description.isBlank()) {
                 showToast(getString(R.string.empty_description_warning))
                 return
             }
 
             showLoading(true)
-            addStoryViewModel.uploadStory(description, imageFile)
+            addStoryViewModel.uploadStory(
+                description,
+                imageFile,
+                currentLat,
+                currentLon
+            )
         } ?: showToast(getString(R.string.empty_image_warning))
     }
 
@@ -131,6 +169,10 @@ class AddStoryActivity : AppCompatActivity() {
     }
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    companion object{
+        const val LOCATION_REQUEST_CODE = 1
     }
 
 }

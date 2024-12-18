@@ -31,7 +31,6 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var passwordEditText: PasswordEditText
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
@@ -103,6 +102,7 @@ class LoginActivity : AppCompatActivity() {
                     loginViewModel.saveSession(user)
                     Toast.makeText(this, "Login berhasil!", Toast.LENGTH_SHORT).show()
                     val intentToWelcome = Intent(this, MainActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(intentToWelcome)
                     finish()
                 } else {

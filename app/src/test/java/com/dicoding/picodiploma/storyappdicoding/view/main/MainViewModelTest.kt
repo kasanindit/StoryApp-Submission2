@@ -17,6 +17,7 @@ import com.dicoding.picodiploma.storyappdicoding.data.response.ListStoryItem
 import com.dicoding.picodiploma.storyappdicoding.getOrAwaitValue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
@@ -26,7 +27,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito
-import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
 
@@ -39,28 +39,24 @@ class MainViewModelTest{
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
-    @Mock private lateinit var userRepository: UserRepository
+    @Mock
+    private lateinit var userRepository: UserRepository
 
     @Mock private lateinit var storyRepository: StoryRepository
 
     private lateinit var mainViewModel: MainViewModel
 
-    @Before
-    fun setUp() {
-        MockitoAnnotations.openMocks(this)
-        mainViewModel = MainViewModel(userRepository, storyRepository)
-    }
 
     @Test
     fun `when Get Story Should Not Null and Return Data`() = runTest {
         val dummyStory = DataDummy.generateDummyStoryResponse()
         val data = StoryPagingResource.snapshot(dummyStory)
-        val expectedStory = MutableLiveData<PagingData<ListStoryItem>>()
-        expectedStory.value = data
+        val expectedStories = MutableLiveData<PagingData<ListStoryItem>>()
+        expectedStories.value = data
+        Mockito.`when`(storyRepository.getStories()).thenReturn(expectedStories)
 
-        Mockito.`when`(storyRepository.getStories()).thenReturn(expectedStory)
-
-        val actualStory = mainViewModel.story.getOrAwaitValue()
+        val mainViewModel = MainViewModel(userRepository ,storyRepository)
+        val actualStory: PagingData<ListStoryItem> = mainViewModel.stories.getOrAwaitValue()
 
         val differ = AsyncPagingDataDiffer(
             diffCallback = StoryAdapter.DIFF_CALLBACK,
@@ -79,11 +75,10 @@ class MainViewModelTest{
         val data: PagingData<ListStoryItem> = PagingData.from(emptyList())
         val expectedStory = MutableLiveData<PagingData<ListStoryItem>>()
         expectedStory.value = data
-//        val flowData = flowOf(data)
+        Mockito.`when`(storyRepository.getStories()).thenReturn(expectedStory)
 
-       `when`(storyRepository.getStories()).thenReturn(expectedStory)
-
-        val actualStory= mainViewModel.story.getOrAwaitValue()
+        val mainViewModel = MainViewModel(userRepository ,storyRepository)
+        val actualStory: PagingData<ListStoryItem> = mainViewModel.stories.getOrAwaitValue()
 
         val differ = AsyncPagingDataDiffer(
             diffCallback = StoryAdapter.DIFF_CALLBACK,

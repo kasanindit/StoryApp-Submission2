@@ -4,11 +4,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.dicoding.picodiploma.storyappdicoding.data.pref.UserModel
 import com.dicoding.picodiploma.storyappdicoding.data.repository.StoryRepository
-import com.dicoding.picodiploma.storyappdicoding.data.repository.UserRepository
 import com.dicoding.picodiploma.storyappdicoding.data.response.ListStoryItem
 import kotlinx.coroutines.launch
 

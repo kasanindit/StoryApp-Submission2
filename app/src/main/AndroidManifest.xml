@@ -66,6 +66,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
+        <!--suppress AndroidDomInspection, AndroidDomInspection -->
         <service
             android:name="com.google.android.gms.metadata.ModuleDependencies"
             android:enabled="false"

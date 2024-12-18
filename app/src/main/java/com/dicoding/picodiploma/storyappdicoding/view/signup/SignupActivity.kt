@@ -2,26 +2,25 @@ package com.dicoding.picodiploma.storyappdicoding.view.signup
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.dicoding.picodiploma.storyappdicoding.R
 import com.dicoding.picodiploma.storyappdicoding.databinding.ActivitySignupBinding
 import com.dicoding.picodiploma.storyappdicoding.view.ViewModelFactory
 import com.dicoding.picodiploma.storyappdicoding.view.customview.PasswordEditText
 import com.dicoding.picodiploma.storyappdicoding.view.login.LoginActivity
-import com.dicoding.picodiploma.storyappdicoding.view.welcome.WelcomeActivity
 import java.net.SocketTimeoutException
 
 class SignupActivity : AppCompatActivity() {
@@ -89,6 +88,8 @@ class SignupActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            Log.d("SignupDebug", "Attempting signup: $name, $email, $password")
+
             showLoading(true)
             signUpViewModel.signup(name, email, password)
         }
@@ -99,11 +100,21 @@ class SignupActivity : AppCompatActivity() {
             showLoading(false)
             result.onSuccess { response ->
                 Toast.makeText(this, response.message, Toast.LENGTH_SHORT).show()
-                if (response.message == "Akun berhasil dibuat!") {
-                    signUpViewModel.signupResult.removeObservers(this)
-                    val intentToLogin = Intent(this@SignupActivity, LoginActivity::class.java)
-                    startActivity(intentToLogin)
-                    finish()
+                Log.d("SignupDebug", "Response message: ${response.message}")
+                if (response.message == "User created") {
+                    AlertDialog.Builder(this).apply {
+                        setTitle("Akun berhasil dibuat!")
+                        setMessage("Anda akan diarahkan ke halaman Login.")
+                        setPositiveButton("OK") { _, _ ->
+                            val intentToMain = Intent(this@SignupActivity, LoginActivity::class.java).apply {
+                                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            }
+                            startActivity(intentToMain)
+                            finish()
+                        }
+                        setCancelable(false)
+                        show()
+                    }
                 }
             }.onFailure { exception ->
                 val errorMessage = when (exception) {
@@ -164,10 +175,11 @@ class SignupActivity : AppCompatActivity() {
         runOnUiThread{ binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE }
     }
 
-    @Deprecated("This method has been deprecated in favor of using the\n      {@link OnBackPressedDispatcher} via {@link #getOnBackPressedDispatcher()}.\n      The OnBackPressedDispatcher controls how back button events are dispatched\n      to one or more {@link OnBackPressedCallback} objects.")
-    @SuppressLint("MissingSuperCall")
-    override fun onBackPressed() {
-        val intentToWelcome = Intent (this@SignupActivity, WelcomeActivity::class.java)
-        startActivity(intentToWelcome)
-    }
+//    @Deprecated("This method has been deprecated in favor of using the\n      {@link OnBackPressedDispatcher} via {@link #getOnBackPressedDispatcher()}.\n      The OnBackPressedDispatcher controls how back button events are dispatched\n      to one or more {@link OnBackPressedCallback} objects.")
+//    @SuppressLint("MissingSuperCall")
+//    override fun onBackPressed() {
+//        val intentToWelcome = Intent (this@SignupActivity, WelcomeActivity::class.java)
+//        startActivity(intentToWelcome)
+//        finish()
+//    }
 }

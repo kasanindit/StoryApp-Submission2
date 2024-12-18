@@ -31,7 +31,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guideline2"
-            app:srcCompat="@drawable/image_signup" />
+            app:srcCompat="@drawable/image_signup"
+            tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/titleTextView"
@@ -84,7 +85,8 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="@string/masukkan_nama"
-                android:inputType="text" />
+                android:inputType="text"
+                tools:ignore="TextContrastCheck,VisualLintTextFieldSize" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
@@ -119,7 +121,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textEmailAddress" />
+                android:inputType="textEmailAddress"
+                tools:ignore="VisualLintTextFieldSize" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
@@ -156,7 +159,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                tools:ignore="VisualLintTextFieldSize" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
@@ -172,7 +176,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/passwordEditTextLayout"
-            tools:alpha="100" />
+            tools:alpha="100"
+            tools:ignore="VisualLintButtonSize" />
 
         <LinearLayout
             android:id="@+id/layoutToLogin"

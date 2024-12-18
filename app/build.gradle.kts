@@ -11,6 +11,7 @@ android {
     defaultConfig {
         applicationId = "com.dicoding.picodiploma.storyappdicoding"
         minSdk = 21
+        //noinspection OldTargetApi
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
@@ -36,14 +37,17 @@ android {
     }
 }
 
+//noinspection GradleDependency
 dependencies {
 
+    implementation("com.google.android.gms:play-services-location:21.3.0")
     val retrofitVersion = "2.9.0"
     val lifecycleRuntimeKtx = "2.6.1"
     val loggingInterceptor = "4.11.0"
 
     implementation("androidx.navigation:navigation-fragment-ktx:2.8.3")
     implementation("androidx.navigation:navigation-ui-ktx:2.8.3")
+    //noinspection KtxExtensionAvailable
     implementation("androidx.activity:activity:1.9.3")
     implementation("com.google.android.gms:play-services-maps:19.0.0")
 

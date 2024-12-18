@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dicoding.picodiploma.storyappdicoding.data.repository.StoryRepository
-import com.dicoding.picodiploma.storyappdicoding.data.repository.UserRepository
 import com.dicoding.picodiploma.storyappdicoding.data.response.AddStoryResponse
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaType
@@ -19,7 +18,7 @@ class AddStoryViewModel(private val storyRepository: StoryRepository) : ViewMode
     private val _uploadResult = MutableLiveData<Result<AddStoryResponse>>()
     val uploadResult: LiveData<Result<AddStoryResponse>> = _uploadResult
 
-    fun uploadStory(description: String, imageFile: File) {
+    fun uploadStory(description: String, imageFile: File, lat: Double?, lon: Double?) {
         val requestBody = description.toRequestBody("text/plain".toMediaType())
         val requestImageFile = imageFile.asRequestBody("image/jpeg".toMediaType())
         val multipartBody = MultipartBody.Part.createFormData(
@@ -27,10 +26,12 @@ class AddStoryViewModel(private val storyRepository: StoryRepository) : ViewMode
             imageFile.name,
             requestImageFile
         )
+        val latBody = lat?.toString()?.toRequestBody("text/plain".toMediaType())
+        val lonBody = lon?.toString()?.toRequestBody("text/plain".toMediaType())
 
         viewModelScope.launch {
             try {
-                val response = storyRepository.uploadStory(multipartBody, requestBody)
+                val response = storyRepository.uploadStory(multipartBody, requestBody, latBody, lonBody)
                 _uploadResult.value = Result.success(response)
             } catch (e: Exception) {
                 _uploadResult.value = Result.failure(e)

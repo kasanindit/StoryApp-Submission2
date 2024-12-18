@@ -10,11 +10,12 @@ import android.view.MenuItem
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
-import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.picodiploma.storyappdicoding.R
+import com.dicoding.picodiploma.storyappdicoding.adapter.LoadingStateAdapter
 import com.dicoding.picodiploma.storyappdicoding.adapter.StoryAdapter
 import com.dicoding.picodiploma.storyappdicoding.databinding.ActivityMainBinding
 import com.dicoding.picodiploma.storyappdicoding.view.ViewModelFactory
@@ -57,15 +58,18 @@ class MainActivity : AppCompatActivity() {
                 Log.d("MainActivity", "Token retrieved: ${user.token}")
             }
         }
-        
     }
 
     private fun getData(){
         val storyAdapter = StoryAdapter()
-        binding.rvItemStory.adapter = storyAdapter
-        viewModel.story.observe(this){
+        binding.rvItemStory.adapter = storyAdapter.withLoadStateFooter(
+            footer = LoadingStateAdapter{
+                storyAdapter.retry()
+            }
+        )
+        viewModel.stories.observe(this){ pagingData ->
             Log.d("PagingLog", "New PagingData received. Submitting to adapter.")
-            storyAdapter.submitData(lifecycle, it)
+            storyAdapter.submitData(lifecycle, pagingData)
         }
     }
 
@@ -119,8 +123,16 @@ class MainActivity : AppCompatActivity() {
     @Deprecated("This method has been deprecated in favor of using the\n      {@link OnBackPressedDispatcher} via {@link #getOnBackPressedDispatcher()}.\n      The OnBackPressedDispatcher controls how back button events are dispatched\n      to one or more {@link OnBackPressedCallback} objects.")
     @SuppressLint("MissingSuperCall")
     override fun onBackPressed() {
-        moveTaskToBack(true)
+        AlertDialog.Builder(this)
+            .setTitle("Keluar")
+            .setMessage("Apakah Anda yakin ingin keluar dari aplikasi?")
+            .setPositiveButton("Ya") { _, _ ->
+                finish()
+            }
+            .setNegativeButton("Tidak", null)
+            .show()
     }
+
 }
 
 

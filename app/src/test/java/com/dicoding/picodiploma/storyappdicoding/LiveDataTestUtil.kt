@@ -30,7 +30,7 @@ fun <T> LiveData<T>.getOrAwaitValue(
         afterObserve.invoke()
 
         if (!latch.await(time, timeUnit)) {
-            throw TimeoutException("LiveData value was never set")
+            throw TimeoutException("LiveData value was never set. Observed value: $data")
         }
     } finally {
         this.removeObserver(observer)

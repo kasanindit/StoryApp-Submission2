@@ -41,6 +41,10 @@
     <string name="upload_failed">Gagal upload story</string>
     <string name="title_activity_maps">MapsActivity</string>
     <string name="location">location</string>
+    <string name="image_login">Image Login</string>
+    <string name="retry">Coba lagi</string>
+    <string name="aktifkan_lokasi">Aktifkan lokasi</string>
+    <string name="ket_aktifkan_lokasi">Ketika mengirim story lokasi Anda akan terlihat di maps</string>
 
 
 </resources>

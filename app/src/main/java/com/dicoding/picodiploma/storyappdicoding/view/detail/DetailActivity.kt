@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.dicoding.picodiploma.storyappdicoding.data.api.ApiConfig
-import com.dicoding.picodiploma.storyappdicoding.data.api.ApiService
 import com.dicoding.picodiploma.storyappdicoding.data.api.StoryApiService
 import com.dicoding.picodiploma.storyappdicoding.databinding.ActivityDetailBinding
 import kotlinx.coroutines.launch
@@ -23,7 +22,7 @@ class DetailActivity : AppCompatActivity() {
 
         storyApiService = ApiConfig.getStoryApiService(this)
 
-        val storyId = intent.getStringExtra(DetailActivity.STORY_ID)
+        val storyId = intent.getStringExtra(STORY_ID)
         Log.d("DetailActivity", "Received storyId: $storyId")
 
         if (storyId.isNullOrEmpty()) {
@@ -31,7 +30,6 @@ class DetailActivity : AppCompatActivity() {
         } else {
             getStoryDetail(storyId)
         }
-
 
         getStoryDetail(storyId)
     }

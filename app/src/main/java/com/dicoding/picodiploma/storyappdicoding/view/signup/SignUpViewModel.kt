@@ -3,6 +3,7 @@ package com.dicoding.picodiploma.storyappdicoding.view.signup
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.dicoding.picodiploma.storyappdicoding.data.pref.UserModel
 import com.dicoding.picodiploma.storyappdicoding.data.repository.UserRepository
 import com.dicoding.picodiploma.storyappdicoding.data.response.RegisterResponse
 import kotlinx.coroutines.launch
@@ -22,6 +23,12 @@ class SignUpViewModel(private val repository: UserRepository) : ViewModel() {
             } catch (e: Exception) {
                 signupResult.postValue(Result.failure(e))
             }
+        }
+    }
+
+    fun saveSession(user: UserModel) {
+        viewModelScope.launch {
+            repository.saveSession(user)
         }
     }
 
