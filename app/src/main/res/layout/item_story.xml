@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginBottom="16dp"
+    app:cardCornerRadius="10dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/ivStory"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:scaleType="fitCenter"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/backgrounds/scenic"
+            android:contentDescription="@string/image_story"/>
+
+        <TextView
+            android:id="@+id/txt_story_uname"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:text="@string/nama_user"
+            app:layout_constraintEnd_toEndOf="@id/ivStory"
+            app:layout_constraintStart_toStartOf="@id/ivStory"
+            app:layout_constraintTop_toBottomOf="@id/ivStory"
+            />
+
+        <TextView
+            android:id="@+id/txt_story_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:text="@string/deskripsi"
+            app:layout_constraintEnd_toEndOf="@id/ivStory"
+            app:layout_constraintStart_toStartOf="@id/ivStory"
+            app:layout_constraintTop_toBottomOf="@id/txt_story_uname"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

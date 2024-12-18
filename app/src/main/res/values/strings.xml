@@ -1,0 +1,46 @@
+<resources>
+    <string name="app_name">StoryApp</string>
+    <string name="signup">Daftar</string>
+    <string name="login">Masuk</string>
+    <string name="message_welcome_page">Mau belajar Android, iOS, Machine Learning, Cloud, Front-End, Back-End, dan bidang IT lainnya? Di Dicoding aja!</string>
+    <string name="title_welcome_page">Selamat datang di Dicoding!</string>
+    <string name="title_signup_page">Lengkapi data dirimu di bawah ini ya</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="message_login_page">Masukkan dulu datamu ya</string>
+    <string name="title_login_page">Ingin menceritakan pengalamanmu di Dicoding?</string>
+    <string name="name">Nama</string>
+    <string name="message_main_page">Selamat Belajar di Dicoding.</string>
+    <string name="greeting">Halo %1$s,</string>
+    <string name="logout">Keluar</string>
+
+    <string name="dont_have_account">Belum punya akun?</string>
+    <string name="have_account">Sudah punya akun?</string>
+    <string name="login_here">Login disini.</string>
+    <string name="register_here">Register disini.</string>
+
+    <string name="masukkan_email">Masukkan email Anda</string>
+    <string name="masukkan_nama">Masukkan nama Anda</string>
+
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_add_story">Add Story</string>
+    <string name="title_settings">Settings</string>
+    <string name="nama_user">nama user</string>
+    <string name="image_story">image story</string>
+    <string name="deskripsi">deskripsi</string>
+    <string name="dicoding_story">Dicoding Story</string>
+    <string name="image_detail">image_detail</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="description">Description</string>
+    <string name="upload">Upload</string>
+    <string name="empty_image_warning">Foto belum ada.</string>
+    <string name="empty_description_warning">Mohon isi deskripsi terlebih dahulu</string>
+    <string name="description_too_long">Deskripsi melebihi limit</string>
+    <string name="upload_failed">Gagal upload story</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="location">location</string>
+
+
+</resources>
